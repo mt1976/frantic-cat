@@ -1,0 +1,56 @@
+2025/02/27 08:59:20.557374 jobs_helpers.go:50: [32m[SERVICE][0m [Schedule] Job "Template Job" - Started
+2025/02/27 08:59:20.557619 templateJob.go:91: [32m[SERVICE][0m [TemplateJob] Running 'Template Job' job across 2 locations
+2025/02/27 08:59:20.557659 templateJob.go:94: [32m[SERVICE][0m [TemplateJob] Getting list of databases from 'main.main.GetDatabaseConnections.func28'
+2025/02/27 08:59:20.557672 templateJob.go:100: [32m[SERVICE][0m [TemplateJob] Running 'Template Job' job across 1 database(s)
+2025/02/27 08:59:20.557787 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(1/10) 250227085920438249000501093810
+2025/02/27 08:59:20.557810 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(2/10) 250227085920446675000501030895
+2025/02/27 08:59:20.557817 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(3/10) 250227085920456707000501015629
+2025/02/27 08:59:20.557823 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(4/10) 250227085920469605000501024470
+2025/02/27 08:59:20.557829 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(5/10) 250227085920501744000501062030
+2025/02/27 08:59:20.557913 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(6/10) 250227085920510700000501088924
+2025/02/27 08:59:20.557931 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(7/10) 250227085920518658000501051046
+2025/02/27 08:59:20.557945 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(8/10) 250227085920526647000501088425
+2025/02/27 08:59:20.557956 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(9/10) 250227085920536960000501046719
+2025/02/27 08:59:20.557963 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(10/10) 250227085920545763000501034620
+2025/02/27 08:59:20.558004 templateJob.go:94: [32m[SERVICE][0m [TemplateJob] Getting list of databases from 'main.main.GetDatabaseConnections.func29'
+2025/02/27 08:59:20.558057 templateJob.go:100: [32m[SERVICE][0m [TemplateJob] Running 'Template Job' job across 1 database(s)
+2025/02/27 08:59:20.558176 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(1/10) 250227085920438249000501093810
+2025/02/27 08:59:20.558188 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(2/10) 250227085920446675000501030895
+2025/02/27 08:59:20.558196 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(3/10) 250227085920456707000501015629
+2025/02/27 08:59:20.558203 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(4/10) 250227085920469605000501024470
+2025/02/27 08:59:20.558209 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(5/10) 250227085920501744000501062030
+2025/02/27 08:59:20.558215 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(6/10) 250227085920510700000501088924
+2025/02/27 08:59:20.558221 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(7/10) 250227085920518658000501051046
+2025/02/27 08:59:20.558227 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(8/10) 250227085920526647000501088425
+2025/02/27 08:59:20.558233 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(9/10) 250227085920536960000501046719
+2025/02/27 08:59:20.558242 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(10/10) 250227085920545763000501034620
+2025/02/27 08:59:20.558319 jobs_helpers.go:56: [32m[SERVICE][0m [Schedule] Job "Template Job" - Completed
+2025/02/27 08:59:20.558329 jobs_helpers.go:57: [32m[SERVICE][0m [Schedule] Job "Template Job" Scheduled [0/30 * * * * *] [Every 30 seconds]
+2025/02/27 09:01:09.415858 jobs_helpers.go:50: [32m[SERVICE][0m [Schedule] Job "Template Job" - Started
+2025/02/27 09:01:09.416011 templateJob.go:91: [32m[SERVICE][0m [TemplateJob] Running 'Template Job' job across 2 locations
+2025/02/27 09:01:09.416040 templateJob.go:94: [32m[SERVICE][0m [TemplateJob] Getting list of databases from 'main.main.GetDatabaseConnections.func28'
+2025/02/27 09:01:09.416056 templateJob.go:100: [32m[SERVICE][0m [TemplateJob] Running 'Template Job' job across 1 database(s)
+2025/02/27 09:01:09.416152 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(1/10) 250227090109333323000501093810
+2025/02/27 09:01:09.416162 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(2/10) 250227090109342799000501030895
+2025/02/27 09:01:09.416168 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(3/10) 250227090109351673000501015629
+2025/02/27 09:01:09.416173 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(4/10) 250227090109359613000501024470
+2025/02/27 09:01:09.416178 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(5/10) 250227090109367654000501062030
+2025/02/27 09:01:09.416183 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(6/10) 250227090109375589000501088924
+2025/02/27 09:01:09.416187 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(7/10) 250227090109383572000501051046
+2025/02/27 09:01:09.416192 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(8/10) 250227090109391688000501088425
+2025/02/27 09:01:09.416196 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(9/10) 250227090109399604000501046719
+2025/02/27 09:01:09.416201 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(10/10) 250227090109407606000501034620
+2025/02/27 09:01:09.416215 templateJob.go:94: [32m[SERVICE][0m [TemplateJob] Getting list of databases from 'main.main.GetDatabaseConnections.func29'
+2025/02/27 09:01:09.416221 templateJob.go:100: [32m[SERVICE][0m [TemplateJob] Running 'Template Job' job across 1 database(s)
+2025/02/27 09:01:09.416299 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(1/10) 250227090109333323000501093810
+2025/02/27 09:01:09.416306 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(2/10) 250227090109342799000501030895
+2025/02/27 09:01:09.416312 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(3/10) 250227090109351673000501015629
+2025/02/27 09:01:09.416320 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(4/10) 250227090109359613000501024470
+2025/02/27 09:01:09.416324 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(5/10) 250227090109367654000501062030
+2025/02/27 09:01:09.416329 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(6/10) 250227090109375589000501088924
+2025/02/27 09:01:09.416333 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(7/10) 250227090109383572000501051046
+2025/02/27 09:01:09.416338 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(8/10) 250227090109391688000501088425
+2025/02/27 09:01:09.416343 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(9/10) 250227090109399604000501046719
+2025/02/27 09:01:09.416347 templateStore_helpers.go:82: [32m[SERVICE][0m [TemplateJob] Template(10/10) 250227090109407606000501034620
+2025/02/27 09:01:09.416417 jobs_helpers.go:56: [32m[SERVICE][0m [Schedule] Job "Template Job" - Completed
+2025/02/27 09:01:09.416424 jobs_helpers.go:57: [32m[SERVICE][0m [Schedule] Job "Template Job" Scheduled [0/30 * * * * *] [Every 30 seconds]

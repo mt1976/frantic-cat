@@ -1,0 +1,20 @@
+2025/02/27 09:49:48.804485 templateStore_init.go:36: [35m[EVENT][0m Initialised Template
+2025/02/27 09:49:48.804708 templateStore.go:332: [35m[EVENT][0m Cleared down Template
+2025/02/27 09:49:48.805000 templateStore.go:332: [35m[EVENT][0m Cleared down Template
+2025/02/27 09:49:49.034822 exportHelper.go:61: [35m[EVENT][0m Exported (10/10) Template(s) to [/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
+2025/02/27 09:49:49.156947 templateStore.go:332: [35m[EVENT][0m Cleared down Template
+2025/02/27 09:49:49.242059 importHelper.go:61: [35m[EVENT][0m Imported (10/10) Template(s) from [/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
+2025/02/27 09:49:49.242852 templateJob.go:155: [35m[EVENT][0m [TemplateJob] Running 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:49:49.243183 templateJob.go:164: [35m[EVENT][0m [TemplateJob] Completed 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:49:49.243224 templateJob.go:155: [35m[EVENT][0m [TemplateJob] Running 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:49:49.243506 templateJob.go:164: [35m[EVENT][0m [TemplateJob] Completed 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:52:24.248977 templateStore_init.go:36: [35m[EVENT][0m Initialised Template
+2025/02/27 09:52:24.364172 templateStore.go:332: [35m[EVENT][0m Cleared down Template
+2025/02/27 09:52:24.364319 templateStore.go:332: [35m[EVENT][0m Cleared down Template
+2025/02/27 09:52:24.557338 exportHelper.go:61: [35m[EVENT][0m Exported (10/10) Template(s) to [/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
+2025/02/27 09:52:24.647266 templateStore.go:332: [35m[EVENT][0m Cleared down Template
+2025/02/27 09:52:24.731589 importHelper.go:61: [35m[EVENT][0m Imported (10/10) Template(s) from [/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
+2025/02/27 09:52:24.733031 templateJob.go:155: [35m[EVENT][0m [TemplateJob] Running 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:52:24.823298 templateJob.go:164: [35m[EVENT][0m [TemplateJob] Completed 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:52:24.823340 templateJob.go:155: [35m[EVENT][0m [TemplateJob] Running 'Template Job' tasks with database=[frantic-template-template.db]
+2025/02/27 09:52:24.910366 templateJob.go:164: [35m[EVENT][0m [TemplateJob] Completed 'Template Job' tasks with database=[frantic-template-template.db]
