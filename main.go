@@ -30,7 +30,11 @@ func main() {
 	cfg := commonConfig.Get()
 
 	if *inCatalogMode {
-		CatalogNix(cfg)
+		err := Catalog(cfg, true)
+		if err != nil {
+			logHandler.ErrorLogger.Println("Error in Catalog Mode: ", err)
+			panic(err)
+		}
 
 	} else {
 		Monitor(cfg)

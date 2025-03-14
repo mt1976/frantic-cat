@@ -10,6 +10,7 @@ package storage
 import (
 	"context"
 
+	"github.com/mt1976/frantic-core/application"
 	"github.com/mt1976/frantic-core/commonConfig"
 	"github.com/mt1976/frantic-core/dao/actions"
 	"github.com/mt1976/frantic-core/dao/database"
@@ -22,6 +23,9 @@ var activeDB *database.DB
 var initialised bool = false // default to false
 var cfg *commonConfig.Settings
 
+var host string
+var hostIP string
+
 func Initialise(ctx context.Context) {
 	timing := timing.Start(domain, actions.INITIALISE.GetCode(), "Initialise")
 	cfg = commonConfig.Get()
@@ -31,6 +35,8 @@ func Initialise(ctx context.Context) {
 	initialised = true
 
 	//TODO: Add any initialisation code here
+	host = application.HostName()
+	hostIP = application.HostIP()
 
 	timing.Stop(1)
 	logHandler.EventLogger.Printf("Initialised %v", domain)

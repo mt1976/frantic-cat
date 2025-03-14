@@ -27,6 +27,7 @@ type Storage_Store struct {
 	Host       string `storm:"index"` // origin
 	HostIP     string `storm:"index"` // origin IP
 	Name       string ``              // name
+	Signature  string `csv:"-"`       // signature
 	//m.Mountpoint, m.Source, m.FSType
 
 }
@@ -45,4 +46,5 @@ var (
 	FIELD_Host       = "Host"
 	FIELD_HostIP     = "HostIP"
 	FIELD_Name       = "Name"
+	FIELD_Signature  = "Signature"
 )

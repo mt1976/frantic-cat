@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/mt1976/frantic-core/dao/actions"
-	"github.com/mt1976/frantic-core/dao/audit"
+	"github.com/mt1976/frantic-core/idHelpers"
 	"github.com/mt1976/frantic-core/jobs"
 	"github.com/mt1976/frantic-core/logHandler"
 	"github.com/mt1976/frantic-core/timing"
@@ -78,11 +78,39 @@ func jobProcessor(j jobs.Job) {
 		return
 	}
 
+	OnRecord, err := Catalog(cfg, false)
+	if err != nil {
+		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
+		return
+	}
+
+	if len(OnRecord) == 0 {
+		logHandler.ServiceLogger.Printf("[%v] No %vs to process", jobs.CodedName(j), domain)
+	}
+
+	if noStorageEntries > len(OnRecord) || noStorageEntries < len(OnRecord) {
+		logHandler.ServiceLogger.Printf("[%v] %v %vs to process, but %v %vs found", jobs.CodedName(j), noStorageEntries, domain, len(OnRecord), domain)
+	}
+
+	jobInstance, err := idHelpers.GetUUIDv2WithPayload(host)
+	if err != nil {
+		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
+		return
+	}
+
 	for StorageEntryIndex, StorageRecord := range StorageEntries {
 		logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
-		StorageRecord.UpdateWithAction(context.TODO(), audit.GRANT, "Job Processing")
-		StorageRecord.UpdateWithAction(context.TODO(), audit.SERVICE, "Job Processing "+j.Name())
-		count++
+		StorageRecord.Signature = jobInstance
+
+		err := StorageRecord.Update(context.TODO(), "Job Processing")
+		if err != nil {
+			logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
+			continue
+		}
+		// check that the current item is still active
+		//StorageRecord.UpdateWithAction(context.TODO(), audit.GRANT, "Job Processing")
+		//StorageRecord.UpdateWithAction(context.TODO(), audit.SERVICE, "Job Processing "+j.Name())
+		//count++
 	}
 	clock.Stop(count)
 }

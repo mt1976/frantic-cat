@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"runtime"
 
-	tmpl "github.com/mt1976/frantic-cat/app/dao/template"
+	"github.com/mt1976/frantic-cat/app/dao/storage"
 	"github.com/mt1976/frantic-core/dao/actions"
 	"github.com/mt1976/frantic-core/dao/database"
 	"github.com/mt1976/frantic-core/jobs"
@@ -13,7 +13,7 @@ import (
 	"github.com/mt1976/frantic-core/timing"
 )
 
-// TemplateJob represents a job that can be scheduled and run periodically.
+// StorageMonitorJob represents a job that can be scheduled and run periodically.
 //
 // Fields:
 //
@@ -43,9 +43,9 @@ import (
 //
 // Example usage:
 //
-//	job := &TemplateJob{}
+//	job := &StorageMonitorJob{}
 //	job.Service()()
-type TemplateJob struct {
+type StorageMonitorJob struct {
 	// Uncomment the following line for multi-database jobs
 	databaseAccessors []func() ([]*database.DB, error)
 }
@@ -55,7 +55,7 @@ type TemplateJob struct {
 // Returns:
 //
 //	string: The name of the job.
-func (j *TemplateJob) Name() string {
+func (j *StorageMonitorJob) Name() string {
 	return "Template Job"
 }
 
@@ -64,7 +64,7 @@ func (j *TemplateJob) Name() string {
 // Returns:
 //
 //	string: The schedule for the job in quartz cron format.
-func (j *TemplateJob) Schedule() string {
+func (j *StorageMonitorJob) Schedule() string {
 	// Every 30 seconds
 	return "0/30 * * * * *"
 }
@@ -74,7 +74,7 @@ func (j *TemplateJob) Schedule() string {
 // Returns:
 //
 //	string: A description of the job.
-func (j *TemplateJob) Description() string {
+func (j *StorageMonitorJob) Description() string {
 	return "Template Job, This is a template job that can be used as a starting point for creating new jobs."
 }
 
@@ -83,7 +83,7 @@ func (j *TemplateJob) Description() string {
 // Returns:
 //
 //	error: An error if any step fails, otherwise nil.
-func (j *TemplateJob) Run() error {
+func (j *StorageMonitorJob) Run() error {
 	clock := timing.Start(jobs.CodedName(j), actions.PROCESS.GetCode(), j.Description())
 	jobs.PreRun(j)
 
@@ -99,12 +99,12 @@ func (j *TemplateJob) Run() error {
 			}
 			logHandler.ServiceLogger.Printf("[%v] Running '%v' job across %v database(s)", jobs.CodedName(j), j.Name(), len(dbList))
 			for _, db := range dbList {
-				templateJobProcessor(j, db)
+				storageMonitorJobProcessor(j, db)
 			}
 		}
 
 	} else {
-		templateJobProcessor(j, nil)
+		storageMonitorJobProcessor(j, nil)
 	}
 	jobs.PostRun(j)
 	clock.Stop(1)
@@ -116,7 +116,7 @@ func (j *TemplateJob) Run() error {
 // Returns:
 //
 //	func(): A function that runs the job and logs any errors.
-func (j *TemplateJob) Service() func() {
+func (j *StorageMonitorJob) Service() func() {
 	return func() {
 		err := j.Run()
 		if err != nil {
@@ -133,18 +133,18 @@ func (j *TemplateJob) Service() func() {
 // Parameters:
 //
 //	fn func() ([]*database.DB, error): A function that returns a slice of pointers to `database.DB` and an error.
-func (job *TemplateJob) AddDatabaseAccessFunctions(fn func() ([]*database.DB, error)) {
+func (job *StorageMonitorJob) AddDatabaseAccessFunctions(fn func() ([]*database.DB, error)) {
 	job.databaseAccessors = append(job.databaseAccessors, fn)
 }
 
-// templateJobProcessor is the main function that processes the job.
+// storageMonitorstorageMonitorJobProcessor is the main function that processes the job.
 //
-// This function is called by the Run method of the TemplateJob struct to perform the main processing logic of the job.
+// This function is called by the Run method of the StorageMonitorJob struct to perform the main processing logic of the job.
 //
 // Parameters:
 //
-//	j *TemplateJob: A pointer to the TemplateJob instance that is being processed.
-func templateJobProcessor(j *TemplateJob, db *database.DB) {
+//	j *StorageMonitorJob: A pointer to the StorageMonitorJob instance that is being processed.
+func storageMonitorJobProcessor(j *StorageMonitorJob, db *database.DB) {
 	// This is the main function
 	jobName := stringHelpers.SQuote(j.Name())
 	appName := cfg.GetApplication_Name()
@@ -155,7 +155,7 @@ func templateJobProcessor(j *TemplateJob, db *database.DB) {
 		logHandler.EventLogger.Printf("[%v] Running %v tasks with database=[%v-%v.db]", jobs.CodedName(j), jobName, appName, db.Name)
 	}
 
-	tmpl.Worker(j, db)
+	storage.Worker(j, db)
 
 	// Report the completion of the job
 	if db == nil {
