@@ -8,6 +8,9 @@ package storage
 //TODO: Update the FIELD_ constants to match the domain entity
 
 import (
+	"time"
+
+	"github.com/mt1976/frantic-core/dao"
 	audit "github.com/mt1976/frantic-core/dao/audit"
 )
 
@@ -20,14 +23,16 @@ type Storage_Store struct {
 	Raw   string      `storm:"unique"`              // raw ID before encoding
 	Audit audit.Audit `csv:"-"`                     // audit data
 	// Add your fields here
-	MountPoint string ``              // mount point
-	Device     string ``              // source
-	FSType     string ``              // file system type
-	Options    string `csv:"-"`       // options
-	Host       string `storm:"index"` // origin
-	HostIP     string `storm:"index"` // origin IP
-	Name       string ``              // name
-	Signature  string `csv:"-"`       // signature
+	MountPoint    string        ``              // mount point
+	Device        string        ``              // source
+	FSType        string        ``              // file system type
+	Options       string        `csv:"-"`       // options
+	Host          string        `storm:"index"` // origin
+	HostIP        string        `storm:"index"` // origin IP
+	Name          string        ``              // name
+	Signature     string        `csv:"-"`       // signature
+	LastMonitored time.Time     `csv:"-"`       // last seen
+	EverMonitored dao.StormBool `csv:"-"`       // ever monitored
 	//m.Mountpoint, m.Source, m.FSType
 
 }
@@ -39,12 +44,14 @@ var (
 	FIELD_Raw   = "Raw"
 	FIELD_Audit = "Audit"
 	// Add your fields here
-	FIELD_MountPoint = "MountPoint"
-	FIELD_Device     = "Device"
-	FIELD_FSType     = "FSType"
-	FIELD_Options    = "Options"
-	FIELD_Host       = "Host"
-	FIELD_HostIP     = "HostIP"
-	FIELD_Name       = "Name"
-	FIELD_Signature  = "Signature"
+	FIELD_MountPoint    = "MountPoint"
+	FIELD_Device        = "Device"
+	FIELD_FSType        = "FSType"
+	FIELD_Options       = "Options"
+	FIELD_Host          = "Host"
+	FIELD_HostIP        = "HostIP"
+	FIELD_Name          = "Name"
+	FIELD_Signature     = "Signature"
+	FIELD_LastMonitored = "LastMonitored"
+	FIELD_EverMonitored = "EverMonitored"
 )

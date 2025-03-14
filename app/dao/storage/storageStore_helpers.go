@@ -2,8 +2,10 @@ package storage
 
 import (
 	"context"
+	"time"
 
 	"github.com/mt1976/frantic-core/dao/actions"
+	"github.com/mt1976/frantic-core/dao/audit"
 	"github.com/mt1976/frantic-core/idHelpers"
 	"github.com/mt1976/frantic-core/jobs"
 	"github.com/mt1976/frantic-core/logHandler"
@@ -78,18 +80,18 @@ func jobProcessor(j jobs.Job) {
 		return
 	}
 
-	OnRecord, err := Catalog(cfg, false)
+	activeEntries, err := Catalog(cfg, false)
 	if err != nil {
 		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
 		return
 	}
 
-	if len(OnRecord) == 0 {
+	if len(activeEntries) == 0 {
 		logHandler.ServiceLogger.Printf("[%v] No %vs to process", jobs.CodedName(j), domain)
 	}
 
-	if noStorageEntries > len(OnRecord) || noStorageEntries < len(OnRecord) {
-		logHandler.ServiceLogger.Printf("[%v] %v %vs to process, but %v %vs found", jobs.CodedName(j), noStorageEntries, domain, len(OnRecord), domain)
+	if noStorageEntries > len(activeEntries) || noStorageEntries < len(activeEntries) {
+		logHandler.ServiceLogger.Printf("[%v] %v %vs to process, but %v %vs found", jobs.CodedName(j), noStorageEntries, domain, len(activeEntries), domain)
 	}
 
 	jobInstance, err := idHelpers.GetUUIDv2WithPayload(host)
@@ -101,11 +103,24 @@ func jobProcessor(j jobs.Job) {
 	for StorageEntryIndex, StorageRecord := range StorageEntries {
 		logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
 		StorageRecord.Signature = jobInstance
+		StorageRecord.LastMonitored = time.Now()
+		StorageRecord.EverMonitored.Set(true)
 
-		err := StorageRecord.Update(context.TODO(), "Job Processing")
-		if err != nil {
-			logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
-			continue
+		// Check that this entry is in the list of active entries
+		// If it is not, then log it
+
+		//	fmt.Printf("activeEntries: %+v\n", activeEntries)
+
+		found := find(StorageRecord, activeEntries)
+		if !found {
+			logHandler.WarningLogger.Printf("[%v] %v(%v/%v) %v not found in active entries", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
+			// send a notification
+		} else {
+			err := StorageRecord.UpdateWithAction(context.TODO(), audit.SILENT, "")
+			if err != nil {
+				logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
+				continue
+			}
 		}
 		// check that the current item is still active
 		//StorageRecord.UpdateWithAction(context.TODO(), audit.GRANT, "Job Processing")
@@ -113,4 +128,16 @@ func jobProcessor(j jobs.Job) {
 		//count++
 	}
 	clock.Stop(count)
+}
+
+func find(record Storage_Store, list []Storage_Store) bool {
+	for _, item := range list {
+		//logHandler.ServiceLogger.Printf("Comparing %v with %v", record.Raw, item.Raw)
+		if record.Raw == item.Raw {
+			logHandler.ServiceLogger.Printf("Found %v in %v", record.Raw, item.Raw)
+			return true
+		}
+	}
+	logHandler.WarningLogger.Printf("Did not find %v in list", record.Raw)
+	return false
 }

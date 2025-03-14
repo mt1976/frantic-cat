@@ -10,6 +10,7 @@ package storage
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/mt1976/frantic-core/commonErrors"
 	"github.com/mt1976/frantic-core/dao"
@@ -40,7 +41,8 @@ func New(ctx context.Context, inName, inMountPoint, inDevice, inType, inOptions,
 	record.HostIP = inIP
 	record.Options = inOptions
 	record.Name = inName
-
+	record.LastMonitored = time.Now()
+	record.EverMonitored.Set(false)
 	// Record the create action in the audit data
 	auditErr := record.Audit.Action(ctx, audit.CREATE.WithMessage(fmt.Sprintf("New %v created %v", domain, record.Raw)))
 	if auditErr != nil {

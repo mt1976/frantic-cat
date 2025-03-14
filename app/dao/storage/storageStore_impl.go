@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/mt1976/frantic-core/commonConfig"
+	"github.com/mt1976/frantic-core/idHelpers"
 	"github.com/mt1976/frantic-core/logHandler"
 	"github.com/shirou/gopsutil/disk"
 )
@@ -58,6 +59,8 @@ func Catalog(cfg *commonConfig.Settings, catalogData bool) ([]Storage_Store, err
 		} else {
 			thrombus := Storage_Store{}
 			thrombus.Name = name
+			thrombus.Raw = host + cfg.SEP() + m.Mountpoint
+			thrombus.Key = idHelpers.Encode(thrombus.Raw)
 			thrombus.MountPoint = m.Mountpoint
 			thrombus.Device = m.Device
 			thrombus.FSType = m.Fstype
