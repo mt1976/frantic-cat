@@ -1,2 +1,1 @@
-2025/02/27 09:49:48.916902 main.go:80: [31m[ERROR][0m invalid type for field ID (string != int)
-2025/02/27 09:52:24.463391 main.go:80: [31m[ERROR][0m invalid type for field ID (string != int)
+2025/03/14 12:07:08.975887 storageStore_new.go:53: [31m[ERROR][0m creating Storage failed (ID=100012) &{%!e(string=already exists)}

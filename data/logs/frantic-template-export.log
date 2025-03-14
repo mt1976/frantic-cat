@@ -1,4 +1,2 @@
-2025/02/27 09:49:49.032459 importExportHelper.go:31: [34m[EXPORT][0m Exporting Templates from File=[/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
-2025/02/27 09:49:49.034791 exportHelper.go:60: [34m[EXPORT][0m Exported (10/10) Template(s) to [/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
-2025/02/27 09:52:24.555406 importExportHelper.go:31: [34m[EXPORT][0m Exporting Templates from File=[/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
-2025/02/27 09:52:24.557298 exportHelper.go:60: [34m[EXPORT][0m Exported (10/10) Template(s) to [/Users/matttownsend/Documents/GitHub/frantic-template/data/defaults/templates.csv]
+2025/03/14 12:14:18.910996 importExportHelper.go:31: [34m[EXPORT][0m Exporting Storages from File=[/Users/matttownsend/Documents/GitHub/frantic-cat/data/defaults/storages.csv]
+2025/03/14 12:14:18.912828 exportHelper.go:60: [34m[EXPORT][0m Exported (12/12) Storage(s) to [/Users/matttownsend/Documents/GitHub/frantic-cat/data/defaults/storages.csv]

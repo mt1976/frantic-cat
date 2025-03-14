@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"runtime"
 
-	"github.com/mt1976/frantic-cat/app/dao/template"
+	"github.com/mt1976/frantic-cat/app/dao/storage"
 	"github.com/mt1976/frantic-core/dao/actions"
 	"github.com/mt1976/frantic-core/dao/database"
 	"github.com/mt1976/frantic-core/jobs"
@@ -155,7 +155,7 @@ func jobProcessor(j *TemplateJob, db *database.DB) {
 		logHandler.EventLogger.Printf("[%v] Running %v tasks with database=[%v-%v.db]", jobs.CodedName(j), jobName, appName, db.Name)
 	}
 
-	template.Worker(j, db)
+	storage.Worker(j, db)
 
 	// Report the completion of the job
 	if db == nil {
