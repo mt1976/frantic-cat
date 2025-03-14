@@ -25,3 +25,4 @@ go.work.sum
 .env
 data/logs/*.log
 data/dumps/*.json
+data/database/frantic-cat-storage.db
