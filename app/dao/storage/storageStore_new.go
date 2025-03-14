@@ -20,7 +20,7 @@ import (
 	"github.com/mt1976/frantic-core/timing"
 )
 
-func New(ctx context.Context, inMountPoint, inSource, inType, inHost, inIP string) (Storage_Store, error) {
+func New(ctx context.Context, inName, inMountPoint, inDevice, inType, inOptions, inHost, inIP string) (Storage_Store, error) {
 
 	dao.CheckDAOReadyState(domain, audit.CREATE, initialised) // Check the DAO has been initialised, Mandatory.
 
@@ -34,10 +34,12 @@ func New(ctx context.Context, inMountPoint, inSource, inType, inHost, inIP strin
 
 	//m.Mountpoint, m.Source, m.FSType, Hosts
 	record.MountPoint = inMountPoint
-	record.Source = inSource
+	record.Device = inDevice
 	record.FSType = inType
 	record.Host = inHost
 	record.HostIP = inIP
+	record.Options = inOptions
+	record.Name = inName
 
 	// Record the create action in the audit data
 	auditErr := record.Audit.Action(ctx, audit.CREATE.WithMessage(fmt.Sprintf("New %v created %v", domain, record.Raw)))

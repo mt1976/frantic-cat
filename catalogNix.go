@@ -3,11 +3,14 @@ package main
 import (
 	"context"
 
-	"github.com/moby/sys/mountinfo"
+	"os"
+	"strings"
+
 	"github.com/mt1976/frantic-cat/app/dao/storage"
 	"github.com/mt1976/frantic-core/application"
 	"github.com/mt1976/frantic-core/commonConfig"
 	"github.com/mt1976/frantic-core/logHandler"
+	disk "github.com/shirou/gopsutil/disk"
 )
 
 func CatalogNix(cfg *commonConfig.Settings) {
@@ -22,23 +25,27 @@ func CatalogNix(cfg *commonConfig.Settings) {
 	host := application.HostName()
 	hostIP := application.HostIP()
 
-	mounts, err := mountinfo.GetMounts(nil)
+	logHandler.InfoLogger.Println("Running in Catalog Mode")
+
+	disks, err := disk.Partitions(true)
 	if err != nil {
-		logHandler.ErrorLogger.Println("Error getting mounts: ", err)
+		logHandler.ErrorLogger.Println("Error getting disks: ", err)
 		panic(err)
 	}
 
-	for _, m := range mounts {
+	for _, m := range disks {
 
-		if m.FSType == "nullfs" || m.FSType == "overlay" {
-			logHandler.InfoLogger.Printf("Skipping %v mount: %v", m.FSType, m.Mountpoint)
+		if m.Fstype == "nullfs" || m.Fstype == "overlay" {
+			logHandler.InfoLogger.Printf("Skipping %v mount: %v", m.Fstype, m.Mountpoint)
 			continue
 		}
 
 		//	fmt.Printf("Mount=%v Source=%v Type=%v\n", m.Mountpoint, m.Source, m.FSType)
+		logHandler.InfoLogger.Printf("Data=%+v\n", m)
+		name := getMountName(m.Mountpoint)
+		logHandler.EventLogger.Printf("Creating mount record: %v '%v'", name, m.Mountpoint)
 
-		logHandler.EventLogger.Printf("Creating mount record: %v", m.Mountpoint)
-		_, err := storage.New(context.TODO(), m.Mountpoint, m.Source, m.FSType, host, hostIP)
+		_, err := storage.New(context.TODO(), name, m.Mountpoint, m.Device, m.Fstype, m.Opts, host, hostIP)
 		if err != nil {
 			logHandler.ErrorLogger.Println("Error creating storage record: ", err)
 			panic(err)
@@ -51,4 +58,12 @@ func CatalogNix(cfg *commonConfig.Settings) {
 		logHandler.ErrorLogger.Println("Error exporting storage records: ", err)
 		panic(err)
 	}
+}
+
+func getMountName(m string) string {
+	name := m
+	//get last element of name delimited by os.PathSeparator
+	names := strings.Split(name, string(os.PathSeparator))
+	name = names[len(names)-1:][0]
+	return name
 }

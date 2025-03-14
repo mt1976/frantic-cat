@@ -4,7 +4,6 @@ import (
 	"context"
 
 	storageStore "github.com/mt1976/frantic-cat/app/dao/storage"
-	"github.com/mt1976/frantic-core/application"
 	"github.com/mt1976/frantic-core/commonConfig"
 	"github.com/mt1976/frantic-core/logHandler"
 	"github.com/spf13/pflag"
@@ -31,11 +30,8 @@ func main() {
 	cfg := commonConfig.Get()
 
 	if *inCatalogMode {
-		if application.OS() == application.NIX {
-			CatalogNix(cfg)
-		} else {
-			CatalogWin(cfg)
-		}
+		CatalogNix(cfg)
+
 	} else {
 		Monitor(cfg)
 	}

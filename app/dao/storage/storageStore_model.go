@@ -21,10 +21,12 @@ type Storage_Store struct {
 	Audit audit.Audit `csv:"-"`                     // audit data
 	// Add your fields here
 	MountPoint string ``              // mount point
-	Source     string ``              // source
+	Device     string ``              // source
 	FSType     string ``              // file system type
+	Options    string `csv:"-"`       // options
 	Host       string `storm:"index"` // origin
 	HostIP     string `storm:"index"` // origin IP
+	Name       string ``              // name
 	//m.Mountpoint, m.Source, m.FSType
 
 }
@@ -37,8 +39,10 @@ var (
 	FIELD_Audit = "Audit"
 	// Add your fields here
 	FIELD_MountPoint = "MountPoint"
-	FIELD_Source     = "Source"
+	FIELD_Device     = "Device"
 	FIELD_FSType     = "FSType"
+	FIELD_Options    = "Options"
 	FIELD_Host       = "Host"
 	FIELD_HostIP     = "HostIP"
+	FIELD_Name       = "Name"
 )

@@ -40,7 +40,7 @@ func importProcessor(inOriginal **Storage_Store) (string, error) {
 
 	//stringField1 := strconv.Itoa(importedData.Field1)
 
-	_, err := New(context.TODO(), importedData.MountPoint, importedData.Source, importedData.FSType, importedData.Host, importedData.HostIP)
+	_, err := New(context.TODO(), importedData.Name, importedData.MountPoint, importedData.Device, importedData.FSType, "n/s", importedData.Host, importedData.HostIP)
 	if err != nil {
 		logHandler.ImportLogger.Panicf("Error importing %v: %v", domain, err.Error())
 		return "", err
