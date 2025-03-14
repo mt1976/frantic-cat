@@ -10,10 +10,10 @@ import (
 	"github.com/mt1976/frantic-core/logHandler"
 )
 
-func Catalog(cfg *commonConfig.Settings) {
+func CatalogNix(cfg *commonConfig.Settings) {
 	// This is the main function
 
-	err := storage.Drop()
+	err := storage.ClearDown(context.TODO())
 	if err != nil {
 		logHandler.ErrorLogger.Println("Error dropping storage records: ", err)
 		panic(err)
