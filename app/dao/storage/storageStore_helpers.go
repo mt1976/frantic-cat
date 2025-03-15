@@ -2,8 +2,10 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"time"
 
+	reporthandler "github.com/mt1976/frantic-cat/app/business/reportHandler"
 	"github.com/mt1976/frantic-core/dao/actions"
 	"github.com/mt1976/frantic-core/dao/audit"
 	"github.com/mt1976/frantic-core/idHelpers"
@@ -67,6 +69,12 @@ func jobProcessor(j jobs.Job) {
 	// For each session, check the expiry date
 	// If the expiry date is less than now, then delete the session
 
+	report, err := reporthandler.NewReport(j.Name() + " Report")
+	if err != nil {
+		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
+		return
+	}
+
 	StorageEntries, err := GetAll()
 	if err != nil {
 		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
@@ -80,6 +88,8 @@ func jobProcessor(j jobs.Job) {
 		return
 	}
 
+	report.AddRow(fmt.Sprintf("Found %v device(s)", noStorageEntries))
+
 	activeEntries, err := Catalog(cfg, false)
 	if err != nil {
 		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
@@ -88,10 +98,12 @@ func jobProcessor(j jobs.Job) {
 
 	if len(activeEntries) == 0 {
 		logHandler.ServiceLogger.Printf("[%v] No %vs to process", jobs.CodedName(j), domain)
+		report.AddRow("No active devices found to process")
 	}
 
 	if noStorageEntries > len(activeEntries) || noStorageEntries < len(activeEntries) {
 		logHandler.ServiceLogger.Printf("[%v] %v %vs to process, but %v %vs found", jobs.CodedName(j), noStorageEntries, domain, len(activeEntries), domain)
+		report.AddRow(fmt.Sprintf("%v device(s) on record, but %v active device(s) found", noStorageEntries, len(activeEntries)))
 	}
 
 	jobInstance, err := idHelpers.GetUUIDv2WithPayload(host)
@@ -99,6 +111,8 @@ func jobProcessor(j jobs.Job) {
 		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
 		return
 	}
+
+	report.H1("Checking Active Devices")
 
 	for StorageEntryIndex, StorageRecord := range StorageEntries {
 		logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
@@ -114,6 +128,7 @@ func jobProcessor(j jobs.Job) {
 		found := find(StorageRecord, activeEntries)
 		if !found {
 			logHandler.WarningLogger.Printf("[%v] %v(%v/%v) %v not found in active entries", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
+			report.AddRow(fmt.Sprintf("'%v' not found in active devices (%v)", StorageRecord.Name, StorageRecord.MountPoint))
 			// send a notification
 		} else {
 			err := StorageRecord.UpdateWithAction(context.TODO(), audit.SILENT, "")
@@ -121,12 +136,15 @@ func jobProcessor(j jobs.Job) {
 				logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
 				continue
 			}
+			report.AddRow(fmt.Sprintf("'%v' found in active devices (%v)", StorageRecord.Name, StorageRecord.MountPoint))
 		}
+
 		// check that the current item is still active
 		//StorageRecord.UpdateWithAction(context.TODO(), audit.GRANT, "Job Processing")
 		//StorageRecord.UpdateWithAction(context.TODO(), audit.SERVICE, "Job Processing "+j.Name())
 		//count++
 	}
+	_ = report.Spool()
 	clock.Stop(count)
 }
 

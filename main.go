@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 
+	reporter "github.com/mt1976/frantic-cat/app/business/reportHandler"
+	reportStore "github.com/mt1976/frantic-cat/app/dao/report"
 	storageStore "github.com/mt1976/frantic-cat/app/dao/storage"
 	"github.com/mt1976/frantic-core/commonConfig"
 	"github.com/mt1976/frantic-core/logHandler"
@@ -26,6 +29,7 @@ func main() {
 	}
 
 	storageStore.Initialise(context.TODO())
+	reportStore.Initialise(context.TODO())
 
 	cfg := commonConfig.Get()
 
@@ -39,6 +43,17 @@ func main() {
 	} else {
 		Monitor(cfg)
 	}
+
+	report, err := reporter.NewReport("Test Report")
+	if err != nil {
+		logHandler.ErrorLogger.Println("Error creating report: ", err)
+		panic(err)
+	}
+	for i := 0; i < 12; i++ {
+		report.AddRow(fmt.Sprintf("Test Row %v", i))
+	}
+
+	report.Spool()
 
 	logHandler.InfoLogger.Println("Finished")
 
