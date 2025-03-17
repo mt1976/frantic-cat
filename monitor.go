@@ -12,4 +12,11 @@ func Monitor(cfg *commonConfig.Settings) {
 	if err != nil {
 		panic(err)
 	}
+
+	y := jobs.ProbeJob{}
+	err = y.Run()
+	if err != nil {
+		panic(err)
+	}
+
 }
