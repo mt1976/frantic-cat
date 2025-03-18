@@ -92,8 +92,8 @@ ip = "192.168.1.145"
 zone = "local"
 
 [[Hosts]]
-name = "PROTEUS"
-fqdn = "proteus.local"
+name = "BBC"
+fqdn = "news.bbc.co.uk"
 ip = "10.147.20.104"
 zone = "zero"
 
@@ -103,47 +103,7 @@ fqdn = "unreachable.any"
 ip = "192.192.192.192"
 zone = "any"
 
-[[Hosts]]
-name = "HPDeskJet"
-fqdn = "hp6c02e0332032.local."
-ip = "192.168.1.150"
-zone = "local"
 
-[[Hosts]]
-name = "EUROPA"
-fqdn = "europa.local"
-ip = "192.168.1.103"
-zone = "local"
-
-[[Hosts]]
-name = "MERCURY"
-fqdn = "mercury.zero"
-ip = "10.147.20.106"
-zone = "zero"
-
-[[Hosts]]
-name = "HELIOS"
-fqdn = "helios.zero"
-ip = "10.147.20.110"
-zone = "zero"
-
-[[Hosts]]
-name = "ORION"
-fqdn = "orion.zero"
-ip = "10.147.20.229"
-zone = "zero"
-
-[[Hosts]]
-name = "FATHER"
-fqdn = "father.zero"
-ip = "10.147.20.221"
-zone = "zero"
-
-[[Hosts]]
-name = "pdp1173"
-fqdn = "pdp1173.com"
-ip = "pdp1173.com"
-zone = "external"
 
 [Security]
 [Security.Sessions]
