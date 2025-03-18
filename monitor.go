@@ -6,5 +6,6 @@ import (
 )
 
 func Monitor(cfg *commonConfig.Settings) {
+
 	jobs.Start()
 }

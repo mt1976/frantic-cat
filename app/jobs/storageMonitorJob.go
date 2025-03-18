@@ -66,7 +66,7 @@ func (j *StorageMonitorJob) Name() string {
 //	string: The schedule for the job in quartz cron format.
 func (j *StorageMonitorJob) Schedule() string {
 	// Every 30 seconds
-	return "0/30 * * * * *"
+	return "0 0 0/2 * * *"
 }
 
 // Description returns a description of the job.

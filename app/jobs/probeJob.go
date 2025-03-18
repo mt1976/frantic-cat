@@ -66,7 +66,7 @@ func (j *ProbeJob) Name() string {
 //	string: The schedule for the job in quartz cron format.
 func (j *ProbeJob) Schedule() string {
 	// Every 3 seconds
-	return "0/3 * * * * *"
+	return "0 0/30 * * * *"
 }
 
 // Description returns a description of the job.

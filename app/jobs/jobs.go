@@ -10,8 +10,21 @@ var StorageMonitorJobInstance jobs.Job = &StorageMonitorJob{}
 var ProbeJobInstance jobs.Job = &ProbeJob{}
 
 func Start() {
+
+	// Run the jobs once
+
+	err := StorageMonitorJobInstance.Run()
+	if err != nil {
+		logHandler.ServiceLogger.Println("Error in StorageMonitorJobInstance: ", err)
+	}
+
+	err = ProbeJobInstance.Run()
+	if err != nil {
+		logHandler.ServiceLogger.Println("Error in ProbeJobInstance: ", err)
+	}
+
 	logHandler.ServiceLogger.Println("Starting Jobs")
-	err := jobs.Initialise(cfg)
+	err = jobs.Initialise(cfg)
 	if err != nil {
 		panic(err)
 	}
