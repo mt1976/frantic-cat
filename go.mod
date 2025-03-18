@@ -3,7 +3,7 @@ module github.com/mt1976/frantic-cat
 go 1.24.0
 
 require (
-	github.com/mt1976/frantic-core v1.2.58
+	github.com/mt1976/frantic-core v1.2.59
 	github.com/mt1976/trnsl8r_connect v1.2.7
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/spf13/pflag v1.0.6
