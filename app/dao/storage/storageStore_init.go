@@ -30,8 +30,8 @@ func Initialise(ctx context.Context) {
 	timing := timing.Start(domain, actions.INITIALISE.GetCode(), "Initialise")
 	cfg = commonConfig.Get()
 	// For a specific database connection, use NamedConnect, otherwise use Connect
-	activeDB = database.ConnectToNamedDB("Storage")
-	// activeDB = database.Connect()
+	//activeDB = database.ConnectToNamedDB("Storage")
+	activeDB = database.Connect()
 	initialised = true
 
 	//TODO: Add any initialisation code here
