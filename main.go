@@ -41,7 +41,8 @@ func main() {
 		}
 
 	} else {
-		go Monitor(cfg)
+
+		Monitor(cfg)
 		runtime.Goexit()
 
 	}

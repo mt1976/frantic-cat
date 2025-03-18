@@ -19,5 +19,7 @@ func Start() {
 
 	jobs.AddJobToScheduler(ProbeJobInstance)
 
+	jobs.StartScheduler()
+
 	logHandler.SecurityLogger.Println("Jobs started")
 }
