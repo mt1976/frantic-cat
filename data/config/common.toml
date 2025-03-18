@@ -91,17 +91,7 @@ fqdn = "silicon.local"
 ip = "192.168.1.145"
 zone = "local"
 
-[[Hosts]]
-name = "BBC"
-fqdn = "news.bbc.co.uk"
-ip = "10.147.20.104"
-zone = "zero"
 
-[[Hosts]]
-name = "UNREACHABLE"
-fqdn = "unreachable.any"
-ip = "192.192.192.192"
-zone = "any"
 
 
 

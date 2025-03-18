@@ -118,7 +118,7 @@ func jobProcessor(j jobs.Job) {
 	var Exception []Storage_Store
 
 	for StorageEntryIndex, StorageRecord := range SnaphostEntries {
-		logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
+		//	logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, noStorageEntries, StorageRecord.Raw)
 		StorageRecord.Signature = jobInstance
 		StorageRecord.LastMonitored = time.Now()
 		StorageRecord.EverMonitored.Set(true)
@@ -146,7 +146,7 @@ func jobProcessor(j jobs.Job) {
 	}
 
 	for StorageEntryIndex, StorageRecord := range CurrentEntries {
-		logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, len(CurrentEntries), StorageRecord.Raw)
+		//	logHandler.ServiceLogger.Printf("[%v] %v(%v/%v) %v", jobs.CodedName(j), domain, StorageEntryIndex+1, len(CurrentEntries), StorageRecord.Raw)
 		found := find(StorageRecord, SnaphostEntries)
 		if !found {
 			Exception = append(Exception, StorageRecord)
@@ -163,6 +163,12 @@ func jobProcessor(j jobs.Job) {
 	report.AddRow(fmt.Sprintf("Unmatched %v device(s), devices currently offline", len(Unmatched)))
 	report.AddRow(fmt.Sprintf("Exception %v device(s), devices added or that became available after the last snapshot", len(Exception)))
 
+	logHandler.ServiceLogger.Printf("[%v] Found %v cataloged device(s)", jobs.CodedName(j), noStorageEntries)
+	logHandler.ServiceLogger.Printf("[%v] Found %v active device(s)", jobs.CodedName(j), len(CurrentEntries))
+	logHandler.ServiceLogger.Printf("[%v] Matched %v device(s)", jobs.CodedName(j), len(Matched))
+	logHandler.ServiceLogger.Printf("[%v] Unmatched %v device(s)", jobs.CodedName(j), len(Unmatched))
+	logHandler.ServiceLogger.Printf("[%v] Exception %v device(s)", jobs.CodedName(j), len(Exception))
+
 	err = report.Spool()
 	if err != nil {
 		logHandler.ErrorLogger.Printf("[%v] Error=[%v]", jobs.CodedName(j), err.Error())
@@ -174,10 +180,10 @@ func find(record Storage_Store, list []Storage_Store) bool {
 	for _, item := range list {
 		//logHandler.ServiceLogger.Printf("Comparing %v with %v", record.Raw, item.Raw)
 		if record.Raw == item.Raw {
-			logHandler.ServiceLogger.Printf("Found %v in %v", record.Raw, item.Raw)
+			//			logHandler.ServiceLogger.Printf("Found %v in %v", record.Raw, item.Raw)
 			return true
 		}
 	}
-	logHandler.WarningLogger.Printf("Did not find %v in list", record.Raw)
+	//	logHandler.WarningLogger.Printf("Did not find %v in list", record.Raw)
 	return false
 }

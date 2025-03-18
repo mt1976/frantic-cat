@@ -6,17 +6,5 @@ import (
 )
 
 func Monitor(cfg *commonConfig.Settings) {
-	// This is the main function
-	x := jobs.StorageMonitorJob{}
-	err := x.Run()
-	if err != nil {
-		panic(err)
-	}
-
-	y := jobs.ProbeJob{}
-	err = y.Run()
-	if err != nil {
-		panic(err)
-	}
-
+	jobs.Start()
 }

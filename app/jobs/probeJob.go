@@ -65,8 +65,8 @@ func (j *ProbeJob) Name() string {
 //
 //	string: The schedule for the job in quartz cron format.
 func (j *ProbeJob) Schedule() string {
-	// Every 30 seconds
-	return "0/30 * * * * *"
+	// Every 3 seconds
+	return "0/3 * * * * *"
 }
 
 // Description returns a description of the job.
@@ -84,6 +84,7 @@ func (j *ProbeJob) Description() string {
 //
 //	error: An error if any step fails, otherwise nil.
 func (j *ProbeJob) Run() error {
+	logHandler.ServiceLogger.Printf("[%v] Running '%v' job", jobs.CodedName(j), j.Name())
 	clock := timing.Start(jobs.CodedName(j), actions.PROCESS.GetCode(), j.Description())
 	jobs.PreRun(j)
 
@@ -117,7 +118,9 @@ func (j *ProbeJob) Run() error {
 //
 //	func(): A function that runs the job and logs any errors.
 func (j *ProbeJob) Service() func() {
+	//	logHandler.ServiceLogger.Printf("[%v] Job %v - Starting", jobs.CodedName(j), stringHelpers.DQuote(j.Name()))
 	return func() {
+		//		logHandler.ServiceLogger.Printf("[%v] Job %v - Started", jobs.CodedName(j), stringHelpers.DQuote(j.Name()))
 		err := j.Run()
 		if err != nil {
 			logHandler.ServiceLogger.Panicf("[%v] %v Error=[%v]", jobs.CodedName(j), j.Name(), err.Error())

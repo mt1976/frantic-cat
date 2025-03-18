@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	reporthandler "github.com/mt1976/frantic-cat/app/business/reportHandler"
+	reportHandler "github.com/mt1976/frantic-cat/app/business/reportHandler"
 	"github.com/mt1976/frantic-core/commonConfig"
 	"github.com/mt1976/frantic-core/idHelpers"
 	"github.com/mt1976/frantic-core/logHandler"
@@ -31,7 +31,7 @@ func Catalog(cfg *commonConfig.Settings, catalogData bool) ([]Storage_Store, err
 		logHandler.InfoLogger.Println("Running in Job Mode")
 	}
 
-	report, _ := reporthandler.NewReport("Storage Catalog", reporthandler.TYPE_Default)
+	report, _ := reportHandler.NewReport("Storage Catalog", reportHandler.TYPE_Default)
 
 	disks, err := disk.Partitions(true)
 	if err != nil {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"runtime"
 
 	reportStore "github.com/mt1976/frantic-cat/app/dao/report"
 	storageStore "github.com/mt1976/frantic-cat/app/dao/storage"
@@ -11,6 +12,7 @@ import (
 )
 
 func main() {
+
 	// This is the main function
 
 	// Going to need to run this with command line arguments
@@ -39,7 +41,9 @@ func main() {
 		}
 
 	} else {
-		Monitor(cfg)
+		go Monitor(cfg)
+		runtime.Goexit()
+
 	}
 
 	logHandler.InfoLogger.Println("Finished")
