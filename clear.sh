@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directories to clear
-directories=("logs" "dumps" "backups" "database")
+directories=("logs" "dumps" "backups" "database" "defaults")
 
 # Base path
 base_path="./data"

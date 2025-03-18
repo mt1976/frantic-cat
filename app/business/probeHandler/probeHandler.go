@@ -8,6 +8,7 @@ import (
 	"github.com/mt1976/frantic-core/dao/actions"
 	"github.com/mt1976/frantic-core/dao/database"
 	"github.com/mt1976/frantic-core/jobs"
+	"github.com/mt1976/frantic-core/logHandler"
 	"github.com/mt1976/frantic-core/netHandler"
 	"github.com/mt1976/frantic-core/timing"
 )
@@ -26,7 +27,7 @@ func jobProcessor(j jobs.Job) {
 	// TODO: this should get a list of hosts to test from the cfg.Settings and test them all
 	// for now we are just testing localhost
 
-	report, err := reporthandler.NewReport("Host Availability")
+	report, err := reporthandler.NewReport("Host Availability", reporthandler.TYPE_Default)
 	if err != nil {
 		panic(err)
 	}
@@ -57,15 +58,14 @@ func jobProcessor(j jobs.Job) {
 	report.Break()
 	switch {
 	case noHosts == count:
-		fmt.Println("All hosts are up")
+		logHandler.ServiceLogger.Println("All hosts are up")
 		report.AddRow("All hosts are up")
 	case count == 0:
-		fmt.Println("All hosts are down")
+		logHandler.WarningLogger.Println("All hosts are down")
 		report.AddRow("All hosts are down")
 	default:
-		fmt.Println("Some hosts are down")
-		report.AddRow("Some hosts are down")
-		report.AddRow(fmt.Sprintf("%v of %v hosts down!", noHosts-count, noHosts))
+		logHandler.WarningLogger.Printf("Some hosts are down, %v of %v hosts down!", noHosts-count, noHosts)
+		report.AddRow(fmt.Sprintf("Some hosts are down, %v of %v hosts down!", noHosts-count, noHosts))
 	}
 	report.Spool()
 	clock.Stop(count)

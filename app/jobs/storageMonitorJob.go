@@ -56,7 +56,7 @@ type StorageMonitorJob struct {
 //
 //	string: The name of the job.
 func (j *StorageMonitorJob) Name() string {
-	return "Template Job"
+	return "Storage Monitoring Job"
 }
 
 // Schedule returns the schedule for the job in cron format.
@@ -75,7 +75,7 @@ func (j *StorageMonitorJob) Schedule() string {
 //
 //	string: A description of the job.
 func (j *StorageMonitorJob) Description() string {
-	return "Template Job, This is a template job that can be used as a starting point for creating new jobs."
+	return "This job monitors the storage usage of the system, and reports on any issues."
 }
 
 // Run executes the job. Starts a timing clock, runs pre-processing, processes the job, runs post-processing, and stops the clock.

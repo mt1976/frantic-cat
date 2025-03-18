@@ -10,12 +10,21 @@ import (
 )
 
 type Report struct {
-	content report.Report_Store
+	content    report.Report_Store
+	reportType ReportType
 }
 
-func NewReport(name string) (Report, error) {
+var TYPE_Markdown = ReportType{Title: "Markdown"}
+var TYPE_Default = ReportType{Title: "Default"}
+
+type ReportType struct {
+	Title string
+}
+
+func NewReport(name string, reportType ReportType) (Report, error) {
 	t := time.Now()
 	r := Report{}
+	r.reportType = reportType
 	r.content.Title = name
 	r.content.Generated = t
 	r.content.Host = "localhost"

@@ -2,9 +2,11 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strings"
 
+	reporthandler "github.com/mt1976/frantic-cat/app/business/reportHandler"
 	"github.com/mt1976/frantic-core/commonConfig"
 	"github.com/mt1976/frantic-core/idHelpers"
 	"github.com/mt1976/frantic-core/logHandler"
@@ -29,13 +31,20 @@ func Catalog(cfg *commonConfig.Settings, catalogData bool) ([]Storage_Store, err
 		logHandler.InfoLogger.Println("Running in Job Mode")
 	}
 
+	report, _ := reporthandler.NewReport("Storage Catalog", reporthandler.TYPE_Default)
+
 	disks, err := disk.Partitions(true)
 	if err != nil {
 		logHandler.ErrorLogger.Println("Error getting disks: ", err)
+		report.AddRow("Error getting disks: " + err.Error())
+		report.Spool()
 		panic(err)
 	}
 
 	var thrombuses []Storage_Store
+
+	report.AddRow(fmt.Sprintf("Number of disks: %v (Includes TimeMachine mounts)", len(disks)))
+	report.H1("Storage Catalog")
 
 	for _, m := range disks {
 
@@ -43,12 +52,17 @@ func Catalog(cfg *commonConfig.Settings, catalogData bool) ([]Storage_Store, err
 			logHandler.InfoLogger.Printf("Skipping %v mount: %v", m.Fstype, m.Mountpoint)
 			continue
 		}
+		// Should we skip this mount? yes, if the mountpoint contains ".timemachine"
+		if strings.Contains(m.Mountpoint, ".timemachine") || strings.Contains(m.Mountpoint, ".TimeMachine") {
+			logHandler.InfoLogger.Printf("Skipping TimeMachine mount: %v", m.Mountpoint)
+			continue
+		}
 
 		//	fmt.Printf("Mount=%v Source=%v Type=%v\n", m.Mountpoint, m.Source, m.FSType)
 		//logHandler.InfoLogger.Printf("Data=%+v\n", m)
 		name := getMountName(m.Mountpoint)
 		if catalogData {
-			logHandler.EventLogger.Printf("Creating mount record: %v '%v'", name, m.Mountpoint)
+			logHandler.EventLogger.Printf("Adding mount record: %v '%v'", name, m.Mountpoint)
 
 			thrombus, err := New(context.TODO(), name, m.Mountpoint, m.Device, m.Fstype, m.Opts, host, hostIP)
 			if err != nil {
@@ -68,15 +82,21 @@ func Catalog(cfg *commonConfig.Settings, catalogData bool) ([]Storage_Store, err
 			thrombus.HostIP = hostIP
 			thrombus.Options = m.Opts
 			thrombuses = append(thrombuses, thrombus)
+
 		}
+		report.AddRow(fmt.Sprintf("Mount: %v", m.Mountpoint))
 	}
 	if catalogData {
+		report.HR()
+		report.AddRow(fmt.Sprintf("Number of mounts: %v", len(thrombuses)))
+		report.HR()
 		err = ExportRecordsAsCSV()
 
 		if err != nil {
 			logHandler.ErrorLogger.Println("Error exporting storage records: ", err)
 			panic(err)
 		}
+		report.Spool()
 	}
 	return thrombuses, nil
 }
