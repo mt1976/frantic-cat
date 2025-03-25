@@ -34,5 +34,5 @@ func Start() {
 
 	jobs.StartScheduler()
 
-	logHandler.SecurityLogger.Println("Jobs started")
+	logHandler.ServiceLogger.Println("Jobs started")
 }
