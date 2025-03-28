@@ -130,7 +130,7 @@ warning = "WARN"
 [Communications]
 [Communications.Pushover]
 UserKey = "uyosdopsu9wxxo7b264bmnnhbfz8nj"
-APIToken = "autd5u19nczbs5v6zq2i7afpzjpe2v"
+APIToken = "a1818ffv419xoeua7krm34uopa3uy4"
 
 [Communications.Email]
 host = "smtp.gmail.com"
