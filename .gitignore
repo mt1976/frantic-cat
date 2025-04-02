@@ -26,3 +26,7 @@ go.work.sum
 data/logs/*.log
 data/dumps/*.json
 data/database/frantic-cat-storage.db
+exec/*
+*.syso
+.DS_Store
+.DS_Store
